@@ -1,5 +1,6 @@
 package weolbu.assignment.member.domain;
 
+import io.micrometer.common.util.StringUtils;
 import java.util.List;
 import java.util.function.IntPredicate;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class RawPassword {
     }
 
     private static void validateLength(String password) {
-        if (password.length() < MIN_LENGTH || password.length() > MAX_LENGTH) {
+        if (StringUtils.isBlank(password) || password.length() < MIN_LENGTH || password.length() > MAX_LENGTH) {
             throw new BadRequestException(String.format("비밀번호는 %d자 이상 %d자 이하여야 합니다.", MIN_LENGTH, MAX_LENGTH));
         }
     }
