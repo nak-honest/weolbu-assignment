@@ -13,8 +13,8 @@ import weolbu.assignment.member.domain.RawPassword;
 import weolbu.assignment.member.dto.SignUpRequest;
 import weolbu.assignment.member.dto.SignUpResponse;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class MemberService {
 
     private final JwtTokenProvider jwtTokenProvider;
