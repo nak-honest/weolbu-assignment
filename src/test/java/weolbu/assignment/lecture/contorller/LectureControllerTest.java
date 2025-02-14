@@ -1,0 +1,61 @@
+package weolbu.assignment.lecture.contorller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.RestAssured;
+import java.math.BigDecimal;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import weolbu.assignment.global.security.JwtTokenProvider;
+import weolbu.assignment.lecture.dto.LectureRequest;
+import weolbu.assignment.member.domain.EncryptedPassword;
+import weolbu.assignment.member.domain.Member;
+import weolbu.assignment.member.domain.MemberRepository;
+import weolbu.assignment.member.domain.MemberRole;
+
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+class LectureControllerTest {
+
+
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    ObjectMapper objectMapper;
+    @LocalServerPort
+    private int port;
+
+    @BeforeEach
+    void setUp() {
+        RestAssured.port = port;
+    }
+
+    @Test
+    @DisplayName("강의를 생성한다.")
+    void createLectureTest() {
+        // given
+        Member member = saveMember();
+        LectureRequest request = new LectureRequest("주식 강의", 100, BigDecimal.valueOf(10_000));
+
+        // when & then
+        RestAssured.given().log().all()
+                .header("Authorization", "Bearer " + jwtTokenProvider.createAccessToken(member.getId()))
+                .contentType("application/json")
+                .body(request)
+                .when().post("/api/v1/lectures")
+                .then().log().all()
+                .statusCode(201)
+                .header("Location", "/api/v1/lectures/1");
+    }
+
+    private Member saveMember() {
+        Member member = new Member(
+                "weolbu", "weolbu@abc.com", "010-1111-1111", new EncryptedPassword("abc123"), MemberRole.INSTRUCTOR);
+        return memberRepository.save(member);
+    }
+}
