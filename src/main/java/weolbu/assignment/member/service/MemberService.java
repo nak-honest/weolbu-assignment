@@ -8,6 +8,9 @@ import weolbu.assignment.global.exception.BadRequestException;
 import weolbu.assignment.global.infrastructure.JwtTokenProvider;
 import weolbu.assignment.member.domain.EncryptedPassword;
 import weolbu.assignment.member.domain.Member;
+import weolbu.assignment.member.domain.MemberEmail;
+import weolbu.assignment.member.domain.MemberName;
+import weolbu.assignment.member.domain.MemberPhoneNumber;
 import weolbu.assignment.member.domain.MemberRepository;
 import weolbu.assignment.member.domain.RawPassword;
 import weolbu.assignment.member.dto.SignUpRequest;
@@ -33,13 +36,13 @@ public class MemberService {
     }
 
     private void validateDuplicate(SignUpRequest request) {
-        if (memberRepository.existsByName(request.name())) {
+        if (memberRepository.existsByName(new MemberName(request.name()))) {
             throw new BadRequestException("해당 이름은 중복된 이름입니다.");
         }
-        if (memberRepository.existsByEmail(request.email())) {
+        if (memberRepository.existsByEmail(new MemberEmail(request.email()))) {
             throw new BadRequestException("해당 이메일로 이미 가입 된 계정이 있습니다.");
         }
-        if (memberRepository.existsByPhoneNumber(request.phoneNumber())) {
+        if (memberRepository.existsByPhoneNumber(new MemberPhoneNumber(request.phoneNumber()))) {
             throw new BadRequestException("해당 휴대폰 번호로 이미 가입 된 계정이 있습니다.");
         }
     }
