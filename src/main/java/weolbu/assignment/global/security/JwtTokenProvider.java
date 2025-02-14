@@ -1,4 +1,4 @@
-package weolbu.assignment.global.infrastructure;
+package weolbu.assignment.global.security;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

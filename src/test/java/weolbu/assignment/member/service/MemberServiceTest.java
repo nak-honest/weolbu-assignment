@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import weolbu.assignment.global.exception.BadRequestException;
-import weolbu.assignment.global.infrastructure.JwtTokenProvider;
+import weolbu.assignment.global.security.JwtTokenProvider;
 import weolbu.assignment.member.domain.EncryptedPassword;
 import weolbu.assignment.member.domain.Member;
 import weolbu.assignment.member.domain.MemberRepository;

@@ -5,7 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import weolbu.assignment.global.exception.BadRequestException;
-import weolbu.assignment.global.infrastructure.JwtTokenProvider;
+import weolbu.assignment.global.security.JwtTokenProvider;
 import weolbu.assignment.member.domain.EncryptedPassword;
 import weolbu.assignment.member.domain.Member;
 import weolbu.assignment.member.domain.MemberRepository;
