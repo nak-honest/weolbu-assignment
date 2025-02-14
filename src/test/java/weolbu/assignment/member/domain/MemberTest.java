@@ -23,7 +23,6 @@ class MemberTest {
                 .hasMessage("이름은 비어있을 수 없습니다.");
     }
 
-
     @ParameterizedTest
     @MethodSource("provideLongName")
     @DisplayName("이름이 20자를 초과할 경우 예외가 발생한다.")
