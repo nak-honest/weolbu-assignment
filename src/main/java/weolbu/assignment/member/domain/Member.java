@@ -94,4 +94,8 @@ public class Member {
     public void verifyPassword(String rawPassword, PasswordEncoder passwordEncoder) {
         password.verifyPassword(rawPassword, passwordEncoder);
     }
+
+    public boolean isInstructor() {
+        return role == MemberRole.INSTRUCTOR;
+    }
 }
