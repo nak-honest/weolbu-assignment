@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import weolbu.assignment.member.dto.AccessTokenResponse;
+import weolbu.assignment.member.dto.LoginRequest;
 import weolbu.assignment.member.dto.SignUpRequest;
 import weolbu.assignment.member.service.MemberService;
 
@@ -20,5 +21,10 @@ public class MemberController {
     @PostMapping
     public ResponseEntity<AccessTokenResponse> signUp(@RequestBody SignUpRequest signUpRequest) {
         return ResponseEntity.ok(memberService.signUp(signUpRequest));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AccessTokenResponse> login(@RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(memberService.login(loginRequest));
     }
 }

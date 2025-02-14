@@ -11,6 +11,7 @@ import weolbu.assignment.member.domain.Member;
 import weolbu.assignment.member.domain.MemberRepository;
 import weolbu.assignment.member.domain.RawPassword;
 import weolbu.assignment.member.dto.AccessTokenResponse;
+import weolbu.assignment.member.dto.LoginRequest;
 import weolbu.assignment.member.dto.SignUpRequest;
 
 @RequiredArgsConstructor
@@ -42,5 +43,14 @@ public class MemberService {
         if (memberRepository.existsByPhoneNumber(request.phoneNumber())) {
             throw new BadRequestException("해당 휴대폰 번호로 이미 가입 된 계정이 있습니다.");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public AccessTokenResponse login(LoginRequest loginRequest) {
+        Member member = memberRepository.findByEmail(loginRequest.email())
+                .orElseThrow(() -> new BadRequestException("올바르지 않은 ID/PW 입니다."));
+        member.verifyPassword(loginRequest.password(), passwordEncoder);
+
+        return new AccessTokenResponse(jwtTokenProvider.createAccessToken(member.getId()));
     }
 }
