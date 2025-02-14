@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import weolbu.assignment.global.exception.BadRequestException;
 
 @Getter
@@ -88,5 +89,9 @@ public class Member {
         if (StringUtils.isBlank(value)) {
             throw new BadRequestException(message);
         }
+    }
+
+    public void verifyPassword(String rawPassword, PasswordEncoder passwordEncoder) {
+        password.verifyPassword(rawPassword, passwordEncoder);
     }
 }
