@@ -1,5 +1,6 @@
 package weolbu.assignment.member.domain;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
@@ -26,5 +27,13 @@ class MemberPhoneNumberTest {
         assertThatThrownBy(() -> new MemberPhoneNumber(phoneNumber))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessage("올바르지 않은 핸드폰 번호입니다.");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"010-1234-5678", "010-1234-5679", "010-1234-5680"})
+    @DisplayName("핸드폰 번호가 올바를 경우 예외가 발생하지 않는다.")
+    void phoneNumberIsValidExceptionTest(String phoneNumber) {
+        assertThatCode(() -> new MemberPhoneNumber(phoneNumber))
+                .doesNotThrowAnyException();
     }
 }
