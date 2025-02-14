@@ -1,12 +1,15 @@
 package weolbu.assignment.member.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import weolbu.assignment.global.exception.BadRequestException;
 
 class RawPasswordTest {
@@ -45,5 +48,16 @@ class RawPasswordTest {
     void passwordIsValidCombinationRuleExceptionTest(String password) {
         assertThatCode(() -> new RawPassword(password))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("비밀번호를 암호화할 수 있다.")
+    void encryptTest() {
+        // given
+        RawPassword rawPassword = new RawPassword("abc123");
+        EncryptedPassword encryptedPassword = rawPassword.encrypt(new BCryptPasswordEncoder());
+
+        // when & then
+        assertThat(encryptedPassword.getPassword()).isNotEqualTo(rawPassword.getPassword());
     }
 }
