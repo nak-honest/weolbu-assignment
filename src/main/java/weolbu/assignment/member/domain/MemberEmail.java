@@ -6,6 +6,7 @@ import jakarta.persistence.Embeddable;
 import java.util.regex.Pattern;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import weolbu.assignment.global.exception.BadRequestException;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
@@ -24,10 +25,10 @@ public class MemberEmail {
 
     private void validate(String email) {
         if (StringUtils.isBlank(email)) {
-            throw new IllegalArgumentException("이메일은 비어있을 수 없습니다.");
+            throw new BadRequestException("이메일은 비어있을 수 없습니다.");
         }
         if (!EMAIL_REGEX.matcher(email).matches()) {
-            throw new IllegalArgumentException("이메일 형식이 올바르지 않습니다.");
+            throw new BadRequestException("이메일 형식이 올바르지 않습니다.");
         }
     }
 }
