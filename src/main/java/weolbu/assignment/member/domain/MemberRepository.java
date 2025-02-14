@@ -4,9 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    boolean existsByName(MemberName name);
+    boolean existsByName(String name);
 
-    boolean existsByEmail(MemberEmail email);
+    boolean existsByEmail(String email);
 
-    boolean existsByPhoneNumber(MemberPhoneNumber phoneNumber);
+    boolean existsByPhoneNumber(String phoneNumber);
 }
