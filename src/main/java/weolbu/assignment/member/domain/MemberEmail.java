@@ -13,7 +13,7 @@ import weolbu.assignment.global.exception.BadRequestException;
 public class MemberEmail {
 
     private static final Pattern EMAIL_REGEX =
-            Pattern.compile("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
+            Pattern.compile("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)+$");
 
     @Column(nullable = false)
     private String email;
