@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import weolbu.assignment.global.exception.BadRequestException;
+import weolbu.assignment.global.exception.ForbiddenException;
 import weolbu.assignment.member.domain.Member;
 
 @Getter
@@ -92,7 +93,7 @@ public class Lecture {
             throw new IllegalArgumentException("강사는 null 일 수 없습니다.");
         }
         if (!instructor.isInstructor()) {
-            throw new BadRequestException("강사만 강의를 등록할 수 있습니다.");
+            throw new ForbiddenException("강사만 강의를 등록할 수 있습니다.");
         }
     }
 }
