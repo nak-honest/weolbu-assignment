@@ -14,7 +14,7 @@ public class MemberPhoneNumber {
 
     private static final int MAX_PHONE_NUMBER_LENGTH = 13;
     private static final Pattern PHONE_NUMBER_REGEX =
-            Pattern.compile("^(01[016789])-?\\d{4}-?\\d{4}$");
+            Pattern.compile("^(01[016789])-\\d{4}-\\d{4}$\n");
 
     @Column(nullable = false, length = MAX_PHONE_NUMBER_LENGTH)
     private String phoneNumber;
