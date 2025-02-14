@@ -15,8 +15,8 @@ import weolbu.assignment.member.domain.EncryptedPassword;
 import weolbu.assignment.member.domain.Member;
 import weolbu.assignment.member.domain.MemberRepository;
 import weolbu.assignment.member.domain.MemberRole;
+import weolbu.assignment.member.dto.AccessTokenResponse;
 import weolbu.assignment.member.dto.SignUpRequest;
-import weolbu.assignment.member.dto.SignUpResponse;
 
 @Import({MemberService.class, JwtTokenProvider.class, BCryptPasswordEncoder.class})
 @DataJpaTest
@@ -77,7 +77,7 @@ class MemberServiceTest {
                 MemberRole.STUDENT);
 
         // when
-        SignUpResponse response = memberService.signUp(request);
+        AccessTokenResponse response = memberService.signUp(request);
 
         // then
         assertThat(response.accessToken()).isNotBlank();

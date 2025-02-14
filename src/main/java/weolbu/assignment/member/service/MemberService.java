@@ -10,8 +10,8 @@ import weolbu.assignment.member.domain.EncryptedPassword;
 import weolbu.assignment.member.domain.Member;
 import weolbu.assignment.member.domain.MemberRepository;
 import weolbu.assignment.member.domain.RawPassword;
+import weolbu.assignment.member.dto.AccessTokenResponse;
 import weolbu.assignment.member.dto.SignUpRequest;
-import weolbu.assignment.member.dto.SignUpResponse;
 
 @RequiredArgsConstructor
 @Service
@@ -22,14 +22,14 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public SignUpResponse signUp(SignUpRequest signUpRequest) {
+    public AccessTokenResponse signUp(SignUpRequest signUpRequest) {
         validateDuplicate(signUpRequest);
         RawPassword rawPassword = new RawPassword(signUpRequest.password());
         EncryptedPassword encryptedPassword = rawPassword.encrypt(passwordEncoder);
         Member member = signUpRequest.toMember(encryptedPassword);
         Member savedMember = memberRepository.save(member);
 
-        return new SignUpResponse(jwtTokenProvider.createAccessToken(savedMember.getId()));
+        return new AccessTokenResponse(jwtTokenProvider.createAccessToken(savedMember.getId()));
     }
 
     private void validateDuplicate(SignUpRequest request) {

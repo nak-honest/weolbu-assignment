@@ -17,8 +17,8 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import weolbu.assignment.global.infrastructure.JwtTokenProvider;
 import weolbu.assignment.member.domain.MemberRole;
+import weolbu.assignment.member.dto.AccessTokenResponse;
 import weolbu.assignment.member.dto.SignUpRequest;
-import weolbu.assignment.member.dto.SignUpResponse;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class MemberControllerTest {
@@ -43,7 +43,7 @@ class MemberControllerTest {
         when(jwtTokenProvider.createAccessToken(any())).thenReturn(accessToken);
         SignUpRequest signUpRequest =
                 new SignUpRequest("naknak", "abc@abc.com", "010-1234-5678", "pwd123", MemberRole.STUDENT);
-        SignUpResponse signUpResponse = new SignUpResponse(accessToken);
+        AccessTokenResponse accessTokenResponse = new AccessTokenResponse(accessToken);
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -51,6 +51,6 @@ class MemberControllerTest {
                 .when().post("/api/v1/members")
                 .then().log().all()
                 .statusCode(200)
-                .body(is(objectMapper.writeValueAsString(signUpResponse)));
+                .body(is(objectMapper.writeValueAsString(accessTokenResponse)));
     }
 }
