@@ -13,6 +13,7 @@ import java.text.NumberFormat;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 import weolbu.assignment.global.exception.BadRequestException;
 import weolbu.assignment.global.exception.ForbiddenException;
 import weolbu.assignment.member.domain.Member;
@@ -48,6 +49,10 @@ public class Lecture {
 
     @Column(nullable = false)
     private int currentEnrollment;
+
+    // 특정 벤더사에 의존하지 않으면서 소수점 계산을 하기 위해 1.0을 곱해줍니다.
+    @Formula("1.0 * current_enrollment / enrollment_limit")
+    private double enrollmentRate;
 
     public Lecture(String name, int enrollmentLimit, BigDecimal price, Member instructor) {
         validate(name, enrollmentLimit, price, instructor);
