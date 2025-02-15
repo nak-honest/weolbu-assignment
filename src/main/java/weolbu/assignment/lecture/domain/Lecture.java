@@ -46,12 +46,16 @@ public class Lecture {
     @JoinColumn(name = "instructor_id", nullable = false)
     private Member instructor;
 
+    @Column(nullable = false)
+    private int currentEnrollment;
+
     public Lecture(String name, int enrollmentLimit, BigDecimal price, Member instructor) {
         validate(name, enrollmentLimit, price, instructor);
         this.name = name;
         this.enrollmentLimit = enrollmentLimit;
         this.price = price;
         this.instructor = instructor;
+        this.currentEnrollment = 0;
     }
 
     private void validate(String name, int enrollmentLimit, BigDecimal price, Member instructor) {
