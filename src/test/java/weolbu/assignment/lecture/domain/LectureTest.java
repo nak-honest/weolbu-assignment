@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import weolbu.assignment.global.exception.BadRequestException;
+import weolbu.assignment.global.exception.ForbiddenException;
 import weolbu.assignment.member.domain.EncryptedPassword;
 import weolbu.assignment.member.domain.Member;
 import weolbu.assignment.member.domain.MemberRole;
@@ -116,7 +117,7 @@ class LectureTest {
     @DisplayName("강사가 아닌 사람이 강의를 등록하는 경우 예외가 발생한다.")
     void instructorIsNotInstructorExceptionTest() {
         assertThatThrownBy(() -> new Lecture("강의명", 10, BigDecimal.valueOf(10_000), createMember(MemberRole.STUDENT)))
-                .isInstanceOf(BadRequestException.class)
+                .isInstanceOf(ForbiddenException.class)
                 .hasMessage("강사만 강의를 등록할 수 있습니다.");
     }
 
