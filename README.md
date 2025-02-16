@@ -1,5 +1,5 @@
 # weolbu-assignment
-### 어플리케이션 실행 방법
+## 어플리케이션 실행 방법
 자바 버전이나 다른 환경으로 인한 문제가 발생할 수 있기에 도커를 통해 실행합니다.   
 이를 위해서는 [도커 데스크탑](https://www.docker.com/products/docker-desktop/) 설치가 필요하니 참고해주세요.   
 호스트에서 이미 8080 포트를 사용 중이라면, 다른 포트를 사용해 주세요.
@@ -11,10 +11,10 @@ docker run -p 8080:8080 spring-boot-app
 ```
 위와 같이 실행하면 http://localhost:8080/ 을 통해 API 호출이 가능합니다.
 
-### API 스펙 문서
+## API 스펙 문서
 http://localhost:8080/swagger-ui/index.html
 
-### 참고 사항
+## 참고 사항
 비밀번호와 같은 민감한 정보를 안전하게 통신하기 위해서는 HTTPS 통신이 필요합니다.
 현재 스프링 애플리케이션은 HTTP로 통신을 하는데, 앞단에 Ngnix와 같은 웹 서버를 두어 SSL Termination을 하는 것을 생각하였습니다.
 
