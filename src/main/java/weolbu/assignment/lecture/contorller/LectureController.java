@@ -3,6 +3,7 @@ package weolbu.assignment.lecture.contorller;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,5 +24,11 @@ public class LectureController {
         Long lectureId = lectureService.createLecture(request, memberAuth);
         return ResponseEntity.created(URI.create("/api/v1/lectures/" + lectureId))
                 .build();
+    }
+
+    @PostMapping("/{id}/enroll")
+    public ResponseEntity<Void> enrollLecture(@PathVariable Long id, MemberAuth memberAuth) {
+        lectureService.enrollLecture(id, memberAuth);
+        return ResponseEntity.noContent().build();
     }
 }
