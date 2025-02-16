@@ -12,6 +12,7 @@ docker run -p 8080:8080 spring-boot-app
 위와 같이 실행하면 http://localhost:8080/ 을 통해 API 호출이 가능합니다.
 
 ### API 스펙 문서
+http://localhost:8080/swagger-ui/index.html
 
 ### 참고 사항
 비밀번호와 같은 민감한 정보를 안전하게 통신하기 위해서는 HTTPS 통신이 필요합니다.
