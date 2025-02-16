@@ -21,7 +21,7 @@ import weolbu.assignment.lecture.service.LectureService;
 @RequestMapping("/api/v1/lectures")
 @RequiredArgsConstructor
 @RestController
-public class LectureController {
+public class LectureController implements LectureControllerDocs {
 
     private final LectureService lectureService;
 

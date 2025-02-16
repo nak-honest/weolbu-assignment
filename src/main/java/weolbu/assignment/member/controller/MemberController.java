@@ -14,7 +14,7 @@ import weolbu.assignment.member.service.MemberService;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/members")
-public class MemberController {
+public class MemberController implements MemberControllerDocs {
 
     private final MemberService memberService;
 
