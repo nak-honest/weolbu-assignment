@@ -3,6 +3,7 @@ package weolbu.assignment.member.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,10 @@ import weolbu.assignment.member.domain.RawPassword;
 import weolbu.assignment.member.dto.AccessTokenResponse;
 import weolbu.assignment.member.dto.LoginRequest;
 import weolbu.assignment.member.dto.SignUpRequest;
+import weolbu.util.DatabaseCleaner;
+import weolbu.util.TestConfig;
 
-@Import({MemberService.class, JwtTokenProvider.class, BCryptPasswordEncoder.class})
+@Import({MemberService.class, JwtTokenProvider.class, BCryptPasswordEncoder.class, TestConfig.class})
 @DataJpaTest
 class MemberServiceTest {
 
@@ -31,6 +34,13 @@ class MemberServiceTest {
     MemberRepository memberRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    DatabaseCleaner databaseCleaner;
+
+    @BeforeEach
+    void setUp() {
+        databaseCleaner.clear();
+    }
 
     @Test
     @DisplayName("중복된 이름으로 회원가입 시 예외가 발생한다.")

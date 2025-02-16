@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import weolbu.assignment.global.security.JwtTokenProvider;
@@ -25,7 +26,10 @@ import weolbu.assignment.member.domain.RawPassword;
 import weolbu.assignment.member.dto.AccessTokenResponse;
 import weolbu.assignment.member.dto.LoginRequest;
 import weolbu.assignment.member.dto.SignUpRequest;
+import weolbu.util.DatabaseCleaner;
+import weolbu.util.TestConfig;
 
+@Import({TestConfig.class})
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class MemberControllerTest {
 
@@ -37,12 +41,15 @@ class MemberControllerTest {
     PasswordEncoder passwordEncoder;
     @Autowired
     ObjectMapper objectMapper;
+    @Autowired
+    DatabaseCleaner databaseCleaner;
     @LocalServerPort
     private int port;
 
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
+        databaseCleaner.clear();
     }
 
     @Test

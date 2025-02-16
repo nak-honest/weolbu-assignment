@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,11 @@ import weolbu.assignment.member.domain.EncryptedPassword;
 import weolbu.assignment.member.domain.Member;
 import weolbu.assignment.member.domain.MemberRepository;
 import weolbu.assignment.member.domain.MemberRole;
+import weolbu.util.DatabaseCleaner;
+import weolbu.util.TestConfig;
 
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
-@Import({LectureService.class})
+@Import({LectureService.class, TestConfig.class})
 @DataJpaTest
 class LectureServiceTest {
 
@@ -37,6 +40,13 @@ class LectureServiceTest {
     MemberRepository memberRepository;
     @Autowired
     LectureRepository lectureRepository;
+    @Autowired
+    DatabaseCleaner databaseCleaner;
+
+    @BeforeEach
+    void setUp() {
+        databaseCleaner.clear();
+    }
 
     @Test
     @DisplayName("강의 생성 성공 테스트")

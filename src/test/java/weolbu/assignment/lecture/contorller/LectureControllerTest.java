@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.annotation.Import;
 import weolbu.assignment.global.security.JwtTokenProvider;
 import weolbu.assignment.lecture.domain.Lecture;
 import weolbu.assignment.lecture.domain.LectureRepository;
@@ -17,10 +18,12 @@ import weolbu.assignment.member.domain.EncryptedPassword;
 import weolbu.assignment.member.domain.Member;
 import weolbu.assignment.member.domain.MemberRepository;
 import weolbu.assignment.member.domain.MemberRole;
+import weolbu.util.DatabaseCleaner;
+import weolbu.util.TestConfig;
 
+@Import(TestConfig.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class LectureControllerTest {
-
 
     @Autowired
     MemberRepository memberRepository;
@@ -28,12 +31,15 @@ class LectureControllerTest {
     LectureRepository lectureRepository;
     @Autowired
     JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    DatabaseCleaner databaseCleaner;
     @LocalServerPort
     private int port;
 
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
+        databaseCleaner.clear();
     }
 
     @Test
