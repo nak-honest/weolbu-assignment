@@ -15,6 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import weolbu.assignment.global.dto.MemberAuth;
@@ -22,6 +26,7 @@ import weolbu.assignment.global.exception.BadRequestException;
 import weolbu.assignment.lecture.domain.Lecture;
 import weolbu.assignment.lecture.domain.LectureRepository;
 import weolbu.assignment.lecture.dto.LectureRequest;
+import weolbu.assignment.lecture.dto.LectureResponse;
 import weolbu.assignment.member.domain.EncryptedPassword;
 import weolbu.assignment.member.domain.Member;
 import weolbu.assignment.member.domain.MemberRepository;
@@ -132,6 +137,74 @@ class LectureServiceTest {
         // then
         Lecture fullEnrollmentLecture = lectureRepository.findById(lecture.getId()).get();
         assertThat(fullEnrollmentLecture.getCurrentEnrollment()).isEqualTo(5);
+    }
+
+    @Test
+    @DisplayName("최근 등록 순으로 정렬된 강의 목록을 조회한다.")
+    void findLecturesSortedByRecentEnrollmentTest() {
+        // given
+        Member instructor = saveInstructor();
+        Lecture lecture1 = saveLecture(instructor);
+        Lecture lecture2 = saveLecture(instructor);
+        Lecture lecture3 = saveLecture(instructor);
+
+        // when
+        Sort sort = Sort.by(Sort.Order.desc("id"));
+        Pageable pageable = PageRequest.of(0, 20, sort);
+        Slice<LectureResponse> lectures = lectureService.findLectures(pageable);
+
+        // then
+        assertThat(lectures.getContent()).extracting(LectureResponse::id)
+                .containsExactly(lecture3.getId(), lecture2.getId(), lecture1.getId());
+    }
+
+    @Test
+    @DisplayName("신청자 많은 순으로 정렬된 강의 목록을 조회한다.")
+    void findLecturesSortedByEnrollmentTest() {
+        // given
+        Member instructor = saveInstructor();
+        Lecture lecture1 = saveLecture(instructor);
+        Lecture lecture2 = saveLecture(instructor);
+        Lecture lecture3 = saveLecture(instructor);
+        Member student1 = saveStudent("student1", "010-2222-2222");
+        Member student2 = saveStudent("student2", "010-3333-3333");
+        lectureService.enrollLecture(lecture2.getId(), new MemberAuth(student1.getId()));
+        lectureService.enrollLecture(lecture2.getId(), new MemberAuth(student2.getId()));
+        lectureService.enrollLecture(lecture3.getId(), new MemberAuth(student1.getId()));
+
+        // when
+        Sort sort = Sort.by(Sort.Order.desc("currentEnrollment"));
+        Pageable pageable = PageRequest.of(0, 20, sort);
+        Slice<LectureResponse> lectures = lectureService.findLectures(pageable);
+
+        // then
+        assertThat(lectures.getContent()).extracting(LectureResponse::id)
+                .containsExactly(lecture2.getId(), lecture3.getId(), lecture1.getId());
+    }
+
+    @Test
+    @DisplayName("신청률이 높은 순으로 정렬된 강의 목록을 조회한다.")
+    void findLecturesSortedByEnrollmentRateTest() {
+        // given
+        Member instructor = saveInstructor();
+        Lecture lecture1 = saveLecture(instructor, 100); // 1%
+        Lecture lecture2 = saveLecture(instructor, 2); // 50%
+        Lecture lecture3 = saveLecture(instructor, 10); // 20%
+        Member student1 = saveStudent("student1", "010-2222-2222");
+        Member student2 = saveStudent("student2", "010-3333-3333");
+        lectureService.enrollLecture(lecture1.getId(), new MemberAuth(student1.getId()));
+        lectureService.enrollLecture(lecture2.getId(), new MemberAuth(student1.getId()));
+        lectureService.enrollLecture(lecture3.getId(), new MemberAuth(student1.getId()));
+        lectureService.enrollLecture(lecture3.getId(), new MemberAuth(student2.getId()));
+
+        // when
+        Sort sort = Sort.by(Sort.Order.desc("enrollmentRate"));
+        Pageable pageable = PageRequest.of(0, 20, sort);
+        Slice<LectureResponse> lectures = lectureService.findLectures(pageable);
+
+        // then
+        assertThat(lectures.getContent()).extracting(LectureResponse::id)
+                .containsExactly(lecture2.getId(), lecture3.getId(), lecture1.getId());
     }
 
     private Member saveInstructor() {

@@ -1,6 +1,8 @@
 package weolbu.assignment.lecture.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import weolbu.assignment.global.dto.MemberAuth;
@@ -10,6 +12,7 @@ import weolbu.assignment.lecture.domain.LectureRepository;
 import weolbu.assignment.lecture.domain.LectureStudent;
 import weolbu.assignment.lecture.domain.LectureStudentRepository;
 import weolbu.assignment.lecture.dto.LectureRequest;
+import weolbu.assignment.lecture.dto.LectureResponse;
 import weolbu.assignment.member.domain.Member;
 import weolbu.assignment.member.domain.MemberRepository;
 
@@ -35,6 +38,12 @@ public class LectureService {
         validateAlreadyEnroll(lecture, student);
         increaseEnrollment(lecture);
         lectureStudentRepository.save(new LectureStudent(lecture, student));
+    }
+
+    @Transactional
+    public Slice<LectureResponse> findLectures(Pageable pageable) {
+        Slice<Lecture> lectures = lectureRepository.findAll(pageable);
+        return lectures.map(LectureResponse::from);
     }
 
     private void validateAlreadyEnroll(Lecture lecture, Member student) {

@@ -10,6 +10,7 @@ public enum PublicEndpoint {
 
     SIGN_UP(HttpMethod.POST, "/api/v1/members"),
     LOGIN(HttpMethod.POST, "/api/v1/members/login"),
+    FIND_LECTURES(HttpMethod.GET, "/api/v1/lectures"),
     ;
 
     private static final List<PublicEndpoint> PUBLIC_ENDPOINTS = Arrays.asList(values());

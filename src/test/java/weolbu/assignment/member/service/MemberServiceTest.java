@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import weolbu.assignment.global.exception.BadRequestException;
 import weolbu.assignment.global.security.JwtTokenProvider;
 import weolbu.assignment.member.domain.EncryptedPassword;
@@ -24,6 +26,7 @@ import weolbu.assignment.member.dto.SignUpRequest;
 import weolbu.util.DatabaseCleaner;
 import weolbu.util.TestConfig;
 
+@Transactional(propagation = Propagation.NOT_SUPPORTED)
 @Import({MemberService.class, JwtTokenProvider.class, BCryptPasswordEncoder.class, TestConfig.class})
 @DataJpaTest
 class MemberServiceTest {
