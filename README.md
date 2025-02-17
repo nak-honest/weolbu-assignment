@@ -4,6 +4,10 @@
 이를 위해서는 [도커 데스크탑](https://www.docker.com/products/docker-desktop/) 설치가 필요하니 참고해주세요.   
 호스트에서 이미 8080 포트를 사용 중이라면, 다른 포트를 사용해 주세요.
 
+gradle 버전 : 8.12.1
+Java 버전 : 17
+Spring Boot 버전 : 3.4.2
+
 ```sh
 ./gradlew clean build
 docker build -t spring-boot-app .
