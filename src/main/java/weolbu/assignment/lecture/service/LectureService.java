@@ -40,7 +40,7 @@ public class LectureService {
         lectureStudentRepository.save(new LectureStudent(lecture, student));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Slice<LectureResponse> findLectures(Pageable pageable) {
         Slice<Lecture> lectures = lectureRepository.findAll(pageable);
         return lectures.map(LectureResponse::from);
