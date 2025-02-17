@@ -1,13 +1,14 @@
 # weolbu-assignment
 ## 애플리케이션 실행 방법
-자바 버전이나 다른 환경으로 인한 문제가 발생할 수 있기에 도커를 통해 실행합니다.   
-이를 위해서는 [도커 데스크탑](https://www.docker.com/products/docker-desktop/) 이 필요하니 참고해주세요.   
-호스트에서 이미 8080 포트를 사용 중이라면, 다른 포트를 사용해 주세요.
-
 - gradle 버전 : 8.12.1
 - Java 버전 : 17
 - Spring Boot 버전 : 3.4.2
+  
+자바 버전이나 다른 환경으로 인한 문제가 발생할 수 있기에 도커를 통해 실행합니다.   
+이를 위해서는 [도커 데스크탑](https://www.docker.com/products/docker-desktop/) 이 실행되어 있어야 하니 참고해주세요.   
+호스트에서 이미 8080 포트를 사용 중이라면, 다른 포트를 사용해 주세요.
 
+다음의 명령어로 애플리케이션을 실행합니다.
 ```sh
 ./gradlew clean build
 docker build -t spring-boot-app .
